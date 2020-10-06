@@ -8,49 +8,52 @@ namespace WindowsFormsApp4
 {
     class Matrix
     {
-        public int[,] mas;
-        public int rowsSize;
-        public int columnSize;
-        public int a;
-        Random rnd = new Random();
+        private double[,] mass;
+        private int rows;
+        private int columns;
 
-        public int this [int i,int j]
-        {
-            get
-            {
-                return mas[i, j];
-            }
-            set
-            {
-                mas[i, j] = value;
-            }
+        public int Rows {
+            get => rows;
         }
-        //public Matrix()
-        //{
-        //    rowsSize = rnd.Next(3, 6);
-        //    columnSize = rnd.Next(3, 7);
-        //    mas = new int[rowsSize, columnSize];
-        //}
 
-        public Matrix(int columns, int rows)
+        public int Columns {
+            get => columns;
+        }
+
+        
+        
+
+        public double this [int i,int j]
         {
-            rowsSize = rows;
-            columnSize = columns;
-            mas = new int[rowsSize, columnSize];
+            get => mass[i, j];
+            set => mass[i, j] = value;
+        }
 
+
+        public Matrix(int rows, int columns)
+        {
+            this.rows = rows;
+            this.columns = columns;
+            mass = new double[rows, columns];
+        }
+
+        public void FillMatrix(Random rnd, int min = -10, int max = 10) {
+            for (int i = 0; i < this.rows; i++)
+                for (int j = 0; j < this.columns; j++)
+                    this.mass[i, j] = rnd.NextDouble() * rnd.Next(min, max);
         }
 
         public static Matrix operator*(Matrix M1, Matrix M2)
         {
-            if (M1.columnSize==M2.rowsSize)
+            if (M1.columns==M2.rows)
             {
-                Matrix M3 = new Matrix(M1.rowsSize, M2.columnSize);
+                Matrix M3 = new Matrix(M1.rows, M2.columns);
 
-                for (int i = 0; i < M1.rowsSize; i++)
+                for (int i = 0; i < M1.rows; i++)
                 {
-                    for (int j = 0; j < M2.columnSize; j++)
+                    for (int j = 0; j < M2.columns; j++)
                     {
-                        for (int k=0; k < M1.columnSize; k++)
+                        for (int k=0; k < M1.columns; k++)
                         {
                             M3[i, j] += M1[i, k] * M2[k, j];
                         }
@@ -61,7 +64,7 @@ namespace WindowsFormsApp4
             }
             else
             {
-                throw new Exception(" ");
+                throw new Exception();
             }
         }
     }
